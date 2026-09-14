@@ -26,7 +26,7 @@ const firebaseConfig = {
 //3.inisialisasi FIREBASE dan Firestone
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
-const messagesCollection = collection(db, "messages")
+const messageCollection = collection(db, "message")
 
 //Menentukan elemen-elemen DOM yang diperlukan
 const chatForm = document.getElementById("chat-form")
@@ -45,7 +45,7 @@ chatForm.addEventListener("submit", async (event) => {
   if (username && message) {
     //kirim ke firestore
     try {
-      await addDoc(messagesCollection, {
+      await addDoc(messageCollection, {
      username: username, 
      message: message, 
      waktu: serverTimestamp()
@@ -73,13 +73,13 @@ onSnapshot(queryPesan, (cuplikan) => {
     const data = doc.data()
     
     //membuattampilanwkartu
-    const waktu = data.waktu.toLocaleTimeString(
+    const waktu = data.waktu.toDate().toLocaleTimeString(
       [], 
       {hour: '2-digit', minute: '2-digit'}
     )
     
     // render pesan (memanggil fungsi renderPesan) 
-    renderPesan(data.username, data, message, waktu)
+    renderPesan(data.username, data.message, waktu)
     
   }) 
 }) 
@@ -90,4 +90,17 @@ function renderPesan(username, message, waktu) {
   
   //menambah nama class messege
   messageDiv.classList.add("message-card")
+  
+  //menambah konten peson ke memeso
+  messageDiv.innerHTML=`
+  <div class="message-content">
+    <strong>${username}</strong>
+    <span>${message}</span>
+  </div>
+  
+  <span class="time">${waktu}</span>
+  ` //
+  
+  //menambahkanmessagadiv
+  chatBox.appendChild(messageDiv)
 }

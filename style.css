@@ -45,7 +45,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background: #F6F2F2;
+    background: #FF5C5C;
 }
 
 /* Form input menempel di bawah container chat */
