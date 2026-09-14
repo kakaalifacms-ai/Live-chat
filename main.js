@@ -60,3 +60,34 @@ chatForm.addEventListener("submit", async (event) => {
 })
 
 //fitur pesan listener (realtime)
+
+const queryPesan= query(messageCollection, orderBy("waktu", "asc")) 
+
+onSnapshot(queryPesan, (cuplikan) => {
+  //Bersikah chatbox sebelum menampilkan
+  chatBox.innerHTML=""
+  
+  //tampilanpesan baru chatbox
+  cuplikan.forEach((doc)=>{
+    //ambul data dari dokumen
+    const data = doc.data()
+    
+    //membuattampilanwkartu
+    const waktu = data.waktu.toLocaleTimeString(
+      [], 
+      {hour: '2-digit', minute: '2-digit'}
+    )
+    
+    // render pesan (memanggil fungsi renderPesan) 
+    renderPesan(data.username, data, message, waktu)
+    
+  }) 
+}) 
+
+function renderPesan(username, message, waktu) {
+  // buat elemen untuk pesan
+  const messageDiv = document.createElement("div")
+  
+  //menambah nama class messege
+  messageDiv.classList.add("message-card")
+}
