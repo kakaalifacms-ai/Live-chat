@@ -82,6 +82,7 @@ onSnapshot(queryPesan, (cuplikan) => {
     renderPesan(data.username, data.message, waktu)
     
   }) 
+  chatBox.scrollTop = chatBox.scrollHeight
 }) 
 
 function renderPesan(username, message, waktu) {
