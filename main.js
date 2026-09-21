@@ -61,8 +61,10 @@ const daftarstiker = [
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Fire/3D/fire_3d.png",
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Party%20popper/3D/party_popper_3d.png",
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Collision/3D/collision_3d.png" , 
-"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f595_3d.png"
-
+"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f595_3d.png", 
+"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f5ff_3d.png",
+"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f412_3d.png",
+"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1fab1_3d.png",
 ]
 
 //Menentukan elemen-elemen DOM yang diperlukan
