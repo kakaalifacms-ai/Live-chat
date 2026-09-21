@@ -19,12 +19,20 @@
     <!--Area Pesan-->
     <div id="chat-box" class="chat-box"></div>
     
+    <!--- Panel pop-up stiker--->
+    <div id="pemilih-stiker" class="pemilih-stiker tersembunyi"> 
+      <div class="daftar-stiker" id="daftar-stiker">
+        
+      </div>
+    </div>
+    
     <!--from kirim pesan-->
     <form id="chat-form" class="chat-form">
       <input type="text" id="username" placeholder="nama...." required/>
       
       <input type="text"  id="message" placeholder="Ketik pesan..." required autocomplete="off" />
       
+      <button type="submit" id="tombol-stiker" class="icon-tomnol">😎</button>
       <button type="submit">Kirim</button>
       
     </form>
