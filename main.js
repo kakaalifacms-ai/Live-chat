@@ -89,7 +89,26 @@ daftarstiker.forEach((url) => {
   img.onerror = () => {
     img.style.display ="none"
   }
-  
+  img.onclick = () => {
+  if (usernameInput.value.trim()) {
+    kirimStiker(url)
+    pemilihStiker.classList.add("tersembunyi")
+  } else {
+    alert("Isi nama terlebih dahulu!")
+    usernameInput.focus()
+  }
+}
+  // kirim stiker ke Firebase
+
+  img.onclick = () => {
+    if (usernameInput.value.trim()) {
+      kirimStiker(url)
+      pemilihStiker.classList.add("tersembunyi")
+    } else {
+      alert("Isi nama terlebih dahulu!")
+      usernameInput.focus()
+    }
+  }
   //elemen img
   divDaftarStiker.appendChild(img) 
 }) 
@@ -162,29 +181,42 @@ onSnapshot(queryPesan, (cuplikan) => {
     )
     
     // render pesan (memanggil fungsi renderPesan) 
-    renderPesan(data.username, data.message, waktu)
+    renderPesan(data.username, data.message, waktu, data.tipe)
     
   }) 
   chatBox.scrollTop = chatBox.scrollHeight
 }) 
 
-function renderPesan(username, message, waktu) {
-  // buat elemen untuk pesan
+function renderPesan(username, message, waktu, tipe = "teks") {
   const messageDiv = document.createElement("div")
-  
-  //menambah nama class messege
   messageDiv.classList.add("message-card")
-  
-  //menambah konten peson ke memeso
-  messageDiv.innerHTML=`
-  <div class="message-content">
-    <strong>${username}</strong>
-    <span>${message}</span>
-  </div>
-  
-  <span class="time">${waktu}</span>
-  ` //
-  
-  //menambahkanmessagadiv
+
+  let isipesan
+
+  // Jika pesan adalah stiker
+  if (tipe === "stiker") {
+    isipesan = `
+      <img 
+        src="${message}" 
+        alt="stiker"
+        class="stiker-chat"
+      >
+    `
+  } else {
+    // Jika pesan adalah teks
+    isipesan = `
+      <span>${message}</span>
+    `
+  }
+
+  messageDiv.innerHTML = `
+    <div class="message-content">
+      <strong>${username}</strong>
+      ${isipesan}
+    </div>
+
+    <span class="time">${waktu}</span>
+  `
+
   chatBox.appendChild(messageDiv)
 }
