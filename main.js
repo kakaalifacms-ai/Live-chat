@@ -30,7 +30,7 @@ const messageCollection = collection(db, "message")
 
 // aran yang berisi daftar URL Stiker
 
-const stickers = [
+const daftarstiker = [
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Grinning%20face/3D/grinning_face_3d.png",
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Face%20with%20tears%20of%20joy/3D/face_with_tears_of_joy_3d.png",
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Rolling%20on%20the%20floor%20laughing/3D/rolling_on_the_floor_laughing_3d.png",
@@ -68,6 +68,8 @@ const chatForm = document.getElementById("chat-form")
 const usernameInput = document.getElementById("username")
 const messageInput = document.getElementById("message")
 const chatBox = document.getElementById("chat-box")
+const pemilikStiker = document.getElementById("pemilih-stiker")
+const divDaftarStiker = document.getElementById("tombol-stiker")
 
 //.fitur kirim pesan
 
