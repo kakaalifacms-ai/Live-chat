@@ -68,8 +68,28 @@ const chatForm = document.getElementById("chat-form")
 const usernameInput = document.getElementById("username")
 const messageInput = document.getElementById("message")
 const chatBox = document.getElementById("chat-box")
-const pemilikStiker = document.getElementById("pemilih-stiker")
-const divDaftarStiker = document.getElementById("tombol-stiker")
+const pemilihStiker = document.getElementById("pemilih-stiker")
+const divDaftarStiker = document.getElementById("daftar-stiker")
+const tombolStiker = document.getElementById("tombol-stiker")
+
+// render popup stiker
+daftarstiker.forEach((url) => {
+  //buat elemen img untuk setiap
+  const img = document.createElement("img")
+  //menentukansumber gambar stiker dari url
+  img.src = url
+  
+  img.classList.add("pilihan-stiker")
+  
+  //elemen img
+  divDaftarStiker.appendChild(img) 
+}) 
+
+//menampilkanpanel pemilih stiker tombol
+tombolStiker.onclick = () => {
+  // toggle class tersembunyi pada panel pemilih stiker
+  pemilihStiker.classList.toggle("tersembunyi")
+}
 
 //.fitur kirim pesan
 
