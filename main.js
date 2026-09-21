@@ -78,8 +78,13 @@ daftarstiker.forEach((url) => {
   const img = document.createElement("img")
   //menentukansumber gambar stiker dari url
   img.src = url
-  
+  //menanmbah nama class
   img.classList.add("pilihan-stiker")
+  
+  //mengirim stiker ke fire 
+  img.onerror = () => {
+    img.style.display ="none"
+  }
   
   //elemen img
   divDaftarStiker.appendChild(img) 
@@ -89,6 +94,23 @@ daftarstiker.forEach((url) => {
 tombolStiker.onclick = () => {
   // toggle class tersembunyi pada panel pemilih stiker
   pemilihStiker.classList.toggle("tersembunyi")
+}
+
+//fungsi kirim stiker ke fire
+async function kirimStiker(url) {
+  const username = usernameInput.value.trim()
+ 
+  // megiriim ke fire
+  try {
+    await addDoc(messageCollection, {
+      username: username, 
+      message: url, 
+      waktu: serverTimestamp(), 
+      tipe: "stiker"
+    })
+  } catch (error) {
+    console.log("gagal mengirim stiker:", error)
+  }
 }
 
 //.fitur kirim pesan
