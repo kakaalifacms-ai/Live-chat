@@ -37,9 +37,17 @@ function ambilAtauBuatIdBrowser() {
   if(idBrowser){
     
     idBrowser = "user_"+Math.random().toString(36).substring(2,11)+"_"+Date.now()
+    
+    //span
+    localStorage.setItem(livechatpunyaku123, idBrowser)
   }
+  return idBrowser
 }
+//simpan is brwoser penggunaan saat ini
+const idBrowserSekarang = ambilAtauBuatIdBrowser()
 
+// amnil nanma user
+const usernameTersimpam = localStorage.getItem("livechat_username") || ""
 // aran yang berisi daftar URL Stiker
 
 const daftarstiker = [
@@ -88,6 +96,12 @@ const pemilihStiker = document.getElementById("pemilih-stiker")
 const divDaftarStiker = document.getElementById("daftar-stiker")
 const tombolStiker = document.getElementById("tombol-stiker")
 
+//jika nama sudah dispman sebelumya
+if (usernameTersimpam) {
+  usernameInput.value = usernameTersimpam
+  
+  usernameInput.disabled = true
+}
 // render popup stiker
 daftarstiker.forEach((url) => {
   //buat elemen img untuk setiap

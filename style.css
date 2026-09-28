@@ -51,7 +51,7 @@ body {
 /* Form input menempel di bawah container chat */
 .chat-form {
     display: flex;
-    gap: 5px;
+    gap: 7px;
     padding: 10px;
     background: #fff;
     border-top: 1px solid #ddd;
@@ -61,9 +61,9 @@ body {
 /* Bagian elemen pesan & card tetap sama seperti sebelumnya... */
 .message-card {
     background: #f1f3f5;
-    padding: 6px 10px;
-    border-radius: 6px;
-    max-width: 90%;
+    padding: 6px 12px;
+    border-radius: 12px;
+    max-width: 70%;
     width: fit-content;
     align-self: flex-start;
     display: flex;
