@@ -7,10 +7,7 @@ import {
   query,
   orderBy,
   onSnapshot,
-  serverTimestamp,
-  doc,
-  updateDoc,
-  increment
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"
 
 // 2. Config Firebase
@@ -23,33 +20,35 @@ const firebaseConfig = {
   appId: "1:560108074909:web:50c7719780334c88bee174",
 };
 
-//3.inisialisasi FIREBASE dan Firestone
+// 3. inisialisasi FIREBASE dan Firestore
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const messageCollection = collection(db, "message")
 
-//identitasbrosewr mengunakan stronge
+// identitas browser menggunakan storage
 function ambilAtauBuatIdBrowser() {
-  //buat sqty variabel untuk penyimpanan broser id 
+
   let idBrowser = localStorage.getItem("livechatpunyaku123")
-  
-  // periska isi varibrl browser id
-  if(idBrowser){
-    
-    idBrowser = "user_"+Math.random().toString(36).substring(2,11)+"_"+Date.now()
-    
-    //span
-    localStorage.setItem(livechatpunyaku123, idBrowser)
+
+  // periksa isi variabel browser id
+  if(!idBrowser){
+
+    idBrowser = "user_" + Math.random().toString(36).substring(2,11) + "_" + Date.now()
+
+    // simpan
+    localStorage.setItem("livechatpunyaku123", idBrowser)
   }
+
   return idBrowser
 }
-//simpan is brwoser penggunaan saat ini
+
+// simpan id browser pengguna saat ini
 const idBrowserSekarang = ambilAtauBuatIdBrowser()
 
-// amnil nanma user
+// ambil nama user
 const usernameTersimpam = localStorage.getItem("livechat_username") || ""
-// aran yang berisi daftar URL Stiker
 
+// array yang berisi daftar URL Stiker
 const daftarstiker = [
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Grinning%20face/3D/grinning_face_3d.png",
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Face%20with%20tears%20of%20joy/3D/face_with_tears_of_joy_3d.png",
@@ -80,14 +79,14 @@ const daftarstiker = [
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20heart/3D/red_heart_3d.png",
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Fire/3D/fire_3d.png",
   "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Party%20popper/3D/party_popper_3d.png",
-  "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Collision/3D/collision_3d.png" , 
-"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f595_3d.png", 
-"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f5ff_3d.png",
-"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f412_3d.png",
-"https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1fab1_3d.png",
+  "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Collision/3D/collision_3d.png",
+  "https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f595_3d.png",
+  "https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f5ff_3d.png",
+  "https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1f412_3d.png",
+  "https://cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode/assets/1fab1_3d.png",
 ]
 
-//Menentukan elemen-elemen DOM yang diperlukan
+// Menentukan elemen-elemen DOM yang diperlukan
 const chatForm = document.getElementById("chat-form")
 const usernameInput = document.getElementById("username")
 const messageInput = document.getElementById("message")
@@ -96,37 +95,32 @@ const pemilihStiker = document.getElementById("pemilih-stiker")
 const divDaftarStiker = document.getElementById("daftar-stiker")
 const tombolStiker = document.getElementById("tombol-stiker")
 
-//jika nama sudah dispman sebelumya
+// jika nama sudah disimpan sebelumnya
 if (usernameTersimpam) {
   usernameInput.value = usernameTersimpam
-  
   usernameInput.disabled = true
 }
+
 // render popup stiker
 daftarstiker.forEach((url) => {
-  //buat elemen img untuk setiap
-  const img = document.createElement("img")
-  //menentukansumber gambar stiker dari url
-  img.src = url
-  //menanmbah nama class
-  img.classList.add("pilihan-stiker")
-  
-  //mengirim stiker ke fire 
-  img.onerror = () => {
-    img.style.display ="none"
-  }
-  img.onclick = () => {
-  if (usernameInput.value.trim()) {
-    kirimStiker(url)
-    pemilihStiker.classList.add("tersembunyi")
-  } else {
-    alert("Isi nama terlebih dahulu!")
-    usernameInput.focus()
-  }
-}
-  // kirim stiker ke Firebase
 
+  // buat elemen img untuk setiap
+  const img = document.createElement("img")
+
+  // menentukan sumber gambar stiker dari url
+  img.src = url
+
+  // menambah nama class
+  img.classList.add("pilihan-stiker")
+
+  // jika gambar stiker gagal dimuat
+  img.onerror = () => {
+    img.style.display = "none"
+  }
+
+  // kirim stiker ke Firebase
   img.onclick = () => {
+
     if (usernameInput.value.trim()) {
       kirimStiker(url)
       pemilihStiker.classList.add("tersembunyi")
@@ -135,126 +129,187 @@ daftarstiker.forEach((url) => {
       usernameInput.focus()
     }
   }
-  //elemen img
-  divDaftarStiker.appendChild(img) 
-}) 
 
-//menampilkanpanel pemilih stiker tombol
-tombolStiker.onclick = () => {
+  // elemen img
+  divDaftarStiker.appendChild(img)
+})
+
+// menampilkan panel pemilih stiker tombol
+tombolStiker.onclick = (event) => {
+
+  // supaya tombol stiker tidak mengirim form
+  event.preventDefault()
+
   // toggle class tersembunyi pada panel pemilih stiker
   pemilihStiker.classList.toggle("tersembunyi")
 }
 
-//fungsi untuk memvalidasi dan menguci
+// fungsi untuk memvalidasi dan mengunci username
 function dapatkanDanKunciUsername() {
-  let usernameb = localStorage.getItem("livechat_username")
-  
-  //jika belum terspan di lical
+
+  let username = localStorage.getItem("livechat_username")
+
+  // jika belum tersimpan di local
   if(!username){
+
     username = usernameInput.value.trim()
-    
-    //
+
     if (!username){
-    alert("username tidak boleh kosong!")
+      alert("username tidak boleh kosong!")
+      usernameInput.focus()
+      return
+    }
+
+    // simpan username local
+    localStorage.setItem("livechat_username", username)
+
+    // elemen username input
+    usernameInput.disabled = true
   }
- //simpan username locals trro
- localStorage.setItem("livechat_username", username)
- 
- //elemen username ipur
- usernameInput.disabled = true
-  }
-  
-  return username 
+
+  return username
 }
 
-
-//fungsi kirim stiker ke fire
+// fungsi kirim stiker ke fire
 async function kirimStiker(url) {
-  const username = usernameInput.value.trim()
- 
-  // megiriim ke fire
+
+  const username = dapatkanDanKunciUsername()
+
+  // jangan kirim stiker kalau username kosong
+  if (!username) {
+    return
+  }
+
+  // sembunyikan kirim stiker
+  pemilihStiker.classList.add("tersembunyi")
+
+  // mengirim ke fire
   try {
+
     await addDoc(messageCollection, {
-      username: username, 
-      message: url, 
-      waktu: serverTimestamp(), 
+      username: username,
+      idBrowser: idBrowserSekarang,
+      message: url,
+      waktu: serverTimestamp(),
       tipe: "stiker"
     })
+
   } catch (error) {
     console.log("gagal mengirim stiker:", error)
   }
 }
 
-//.fitur kirim pesan
-
+// fitur kirim pesan
 chatForm.addEventListener("submit", async (event) => {
+
   event.preventDefault()
-  
-  const username = usernameInput.value.trim()
+
+  const username = dapatkanDanKunciUsername()
+
+  // jangan kirim pesan kalau username kosong
+  if (!username) return
+
   const message = messageInput.value.trim()
-  
-  if (username && message) {
-    //kirim ke firestore
-    try {
-      await addDoc(messageCollection, {
-     username: username, 
-     message: message, 
-     waktu: serverTimestamp()
-      })
-      
-      // bersihkan input setelah mengririm pesan 
-      messageInput.value =""
-    } catch (error) {
-      console.log("Gagal mengirim pesan", error)
-    }
+
+  // jangan kirim kalau pesan kosong
+  if (!message) return
+
+  // kirim ke firestore
+  try {
+
+    await addDoc(messageCollection, {
+      username: username,
+      idBrowser: idBrowserSekarang,
+      message: message,
+      waktu: serverTimestamp(),
+      tipe: "teks"
+    })
+
+    // bersihkan input setelah mengirim pesan
+    messageInput.value = ""
+
+  } catch (error) {
+    console.log("Gagal mengirim pesan", error)
   }
 })
 
-//fitur pesan listener (realtime)
-
-const queryPesan= query(messageCollection, orderBy("waktu", "asc")) 
+// fitur pesan listener (realtime)
+const queryPesan = query(
+  messageCollection,
+  orderBy("waktu", "asc")
+)
 
 onSnapshot(queryPesan, (cuplikan) => {
-  //Bersikah chatbox sebelum menampilkan
-  chatBox.innerHTML=""
-  
-  //tampilanpesan baru chatbox
-  cuplikan.forEach((doc)=>{
-    //ambul data dari dokumen
-    const data = doc.data()
-    
-    //membuattampilanwkartu
-    const waktu = data.waktu.toDate().toLocaleTimeString(
-      [], 
-      {hour: '2-digit', minute: '2-digit'}
-    )
-    
-    // render pesan (memanggil fungsi renderPesan) 
-    renderPesan(data.username, data.message, waktu, data.tipe)
-    
-  }) 
-  chatBox.scrollTop = chatBox.scrollHeight
-}) 
 
-function renderPesan(username, message, waktu, tipe = "teks") {
+  // Bersihkan chatbox sebelum menampilkan
+  chatBox.innerHTML = ""
+
+  // tampilan pesan baru chatbox
+  cuplikan.forEach((doc) => {
+
+    // ambil data dari dokumen
+    const data = doc.data()
+
+    // kalau waktu belum tersedia
+    if (!data.waktu) return
+
+    // membuat tampilan kartu
+    const waktu = data.waktu.toDate().toLocaleTimeString(
+      [],
+      {
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    )
+
+    // render pesan
+    renderPesan(
+      data.username,
+      data.message,
+      waktu,
+      data.tipe,
+      data.idBrowser
+    )
+  })
+
+  chatBox.scrollTop = chatBox.scrollHeight
+})
+
+function renderPesan(
+  username,
+  message,
+  waktu,
+  tipe = "teks",
+  idBrowser
+) {
+
   const messageDiv = document.createElement("div")
+
   messageDiv.classList.add("message-card")
 
   let isipesan
 
+  // cek apakah pesan milik sendiri
+  if (idBrowser === idBrowserSekarang) {
+    messageDiv.classList.add("my-message")
+  }
+
   // Jika pesan adalah stiker
   if (tipe === "stiker") {
+
     isipesan = `
-      <img 
-        src="${message}" 
+      <img
+        src="${message}"
         alt="stiker"
         class="stiker-chat"
       >
     `
+
   } else {
+
     // Jika pesan adalah teks
     isipesan = `
-      <span>${message}</span>
+      <span class="text">${message}</span>
     `
   }
 
