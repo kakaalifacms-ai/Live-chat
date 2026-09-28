@@ -145,6 +145,22 @@ tombolStiker.onclick = () => {
   pemilihStiker.classList.toggle("tersembunyi")
 }
 
+//fungsi untuk memvalidasi dan menguci
+function dapatkanDanKunciUsername() {
+  let usernameb = localStorage.getItem("livechat_username")
+  
+  //jika belum terspan di lical
+  if(!username){
+    username = usernameInput.value.trim()
+    
+    //
+    if (!username){
+    alert("username tidak boleh kosong!")
+  }
+  }
+}
+
+
 //fungsi kirim stiker ke fire
 async function kirimStiker(url) {
   const username = usernameInput.value.trim()
