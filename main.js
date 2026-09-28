@@ -28,6 +28,18 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const messageCollection = collection(db, "message")
 
+//identitasbrosewr mengunakan stronge
+function ambilAtauBuatIdBrowser() {
+  //buat sqty variabel untuk penyimpanan broser id 
+  let idBrowser = localStorage.getItem("livechatpunyaku123")
+  
+  // periska isi varibrl browser id
+  if(idBrowser){
+    
+    idBrowser = "user_"+Math.random().toString(36).substring(2,11)+"_"+Date.now()
+  }
+}
+
 // aran yang berisi daftar URL Stiker
 
 const daftarstiker = [
