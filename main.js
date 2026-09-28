@@ -157,7 +157,14 @@ function dapatkanDanKunciUsername() {
     if (!username){
     alert("username tidak boleh kosong!")
   }
+ //simpan username locals trro
+ localStorage.setItem("livechat_username", username)
+ 
+ //elemen username ipur
+ usernameInput.disabled = true
   }
+  
+  return username 
 }
 
 
